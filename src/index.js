@@ -7,6 +7,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use('/upload', require('./app/Media/index'));
 
 app.listen(process.env.PORT, ()=>{
 
