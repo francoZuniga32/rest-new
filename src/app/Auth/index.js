@@ -1,7 +1,7 @@
 const ruta = require('express').Router();
-const controlador = require('./controlador');
+const controlador = require('./controller');
 
-ruta.get('/', controlador.auth);
-ruta.post('/', controlador.register);
+ruta.post('/', controlador.auth);
+ruta.post('/register', controlador.register);
 
 module.exports = ruta;

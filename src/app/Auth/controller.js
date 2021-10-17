@@ -6,20 +6,20 @@ const Usaurio = require("../../databases/models/users")(sequelize, DataTypes);
 
 controlador.auth = async (req, res) => {
   if (req.body.email && req.body.pass) {
-    var usaurio = await Usaurio.findOne({
-      attributes: ['nombre','email','admin',],
+    var usuario = await Usaurio.findOne({
+      attributes: ['id','name','email','admin',],
       where:{
         email: req.body.email,
         pass: req.body.pass,
       }
     });
 
-    if (usaurio != null) {
+    if (usuario != null) {
       const token = jwt.sign({ usuario: usuario }, process.env.CLAVE, {
         expiresIn: "3h",
       });
       usuario.setDataValue("token",token);
-      res.send(token);
+      res.send({"token":token});
     }
   } else {
     res.status(403).send();
@@ -27,7 +27,7 @@ controlador.auth = async (req, res) => {
 };
 
 controlador.register = async(req, res) => {
-  var admin = req.headers["access-token"].usuario.admin;
+  var admin = jwt.verify(req.headers["access-token"], process.env.CLAVE).usuario.admin;
   if(req.body.nombre && req.body.email && req.body.pass && admin){
     var usuario = await Usaurio.create({
       nombre: req.body.nombre,

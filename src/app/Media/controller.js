@@ -15,6 +15,9 @@ const storageImages = multer.diskStorage({
     var name = encriptfile(file.originalname);
     cb(null, name);
   },
+  limits:{
+    fileSize: 1073741824
+  }
 });
 
 const uploadImages = multer({
@@ -34,7 +37,7 @@ const storageVideos = multer.diskStorage({
     var name = encriptfile(file.originalname);
     cb(null, name);
   },
-  limits: { fileSize: 10000000}
+  limits: { fileSize: 16106127360}
 });
 
 const uploadVideo = multer({
@@ -91,13 +94,21 @@ controlador.imagen = async (req, res) => {
 
     var media = await Media.create({
       name: req.file.filename,
-      tipe: "image",
+      type: "image",
       url: `http://localhost:3000/static/images/${req.file.filename}`,
     });
 
     res.send(media);
   });
 };
+
+controlador.getImages = async(req, res)=>{
+  res.send(await Media.findAll({
+    where:{
+      type: 'image'
+    }
+  }));
+}
 
 controlador.video = async (req, res) => {
   uploadVideo(req, res, async (err) => {
@@ -107,13 +118,21 @@ controlador.video = async (req, res) => {
 
     var media = await Media.create({
       name: req.file.filename,
-      tipe: "videos",
+      type: "videos",
       url: `http://localhost:3000/static/videos/${req.file.filename}`,
     });
 
     res.send(media);
   });
 };
+
+controlador.getVideo = async(req, res)=>{
+  res.send(await Media.findAll({
+    where:{
+      type: 'videos'
+    }
+  }));
+}
 
 controlador.audio = async (req, res) => {
   uploadAudio(req, res, async (err) => {
@@ -123,13 +142,21 @@ controlador.audio = async (req, res) => {
 
     var media = await Media.create({
       name: req.file.filename,
-      tipe: "audio",
+      type: "audio",
       url: `http://localhost:3000/static/audios/${req.file.filename}`,
     });
 
     res.send(media);
   });
 };
+
+controlador.getAudio = async(req, res)=>{
+  res.send(await Media.findAll({
+    where:{
+      type: 'audio'
+    }
+  }));
+}
 
 controlador.file = async (req, res) => {
   uploadFile(req, res, async (err) => {
@@ -139,12 +166,20 @@ controlador.file = async (req, res) => {
 
     var media = await Media.create({
       name: req.file.filename,
-      tipe: "file",
+      type: "file",
       url: `http://localhost:3000/static/files/${req.file.filename}`,
     });
 
     res.send(media);
   });
 };
+
+controlador.getFile = async(req, res)=>{
+  res.send(await Media.findAll({
+    where:{
+      type: 'file'
+    }
+  }));
+}
 
 module.exports = controlador;

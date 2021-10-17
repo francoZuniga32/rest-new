@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      titulo: {
+      title: {
         type: Sequelize.STRING
       },
       badge: {
@@ -19,6 +19,9 @@ module.exports = {
       },
       published: {
         type: Sequelize.BOOLEAN
+      },
+      UserId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
